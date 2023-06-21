@@ -1,4 +1,5 @@
 ﻿using Kook.WebSocket;
+using System.Drawing.Imaging;
 
 namespace XiBaoKookBot {
     internal class Command {
@@ -11,9 +12,9 @@ namespace XiBaoKookBot {
                 message.Channel.SendTextAsync("生成的时候粗了亿点点小问题");
                 return;
             }
-            string path = @$"{Application.StartupPath}\temporary\{keys[1]}-{keys[2]}.png";
-            image.Save(path);
-            message.Channel.SendFileAsync(path);
+            MemoryStream ms = new();
+            image.Save(ms, ImageFormat.Png);
+            message.Channel.SendFileAsync(ms, $"{keys[1]}-{keys[2]}.png", Kook.AttachmentType.Image);
         }
     }
 }
